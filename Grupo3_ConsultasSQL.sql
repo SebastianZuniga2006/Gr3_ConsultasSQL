@@ -41,3 +41,14 @@ INSERT INTO DETALLE_ORDENES VALUES (11,1,12,50)
 INSERT INTO DETALLE_ORDENES VALUES (11,2,14,10)
 INSERT INTO DETALLE_ORDENES VALUES (11,3,15,30)
 select * from DETALLE_ORDENES
+
+-- 6. Actualice el precio de los productos que ingresó en el numeral 3 (de la nueva categoría), subiendo el 5% */
+update productos
+set PRECIOUNIT *= 1.05
+where categoriaID = '800';
+select * from PRODUCTOS
+
+-- Borre el registro del producto que no se ha incluido en la orden. 
+delete from PRODUCTOS
+where PRODUCTOID = '16'
+
