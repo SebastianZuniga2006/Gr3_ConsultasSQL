@@ -43,12 +43,28 @@ INSERT INTO DETALLE_ORDENES VALUES (11,3,15,30)
 select * from DETALLE_ORDENES
 
 -- 6. Actualice el precio de los productos que ingresó en el numeral 3 (de la nueva categoría), subiendo el 5% */
-update productos
-set PRECIOUNIT *= 1.05
-where categoriaID = '800';
-select * from PRODUCTOS
+UPDATE PRODUCTOS
 
--- Borre el registro del producto que no se ha incluido en la orden. 
-delete from PRODUCTOS
-where PRODUCTOID = '16'
+	-- se empleó la función "round" para calcular el precio con dos decimales de precisión
+SET PRECIOUNIT = ROUND(PRECIOUNIT * 1.05, 2)
+WHERE CATEGORIAID = '800'
+SELECT * FROM PRODUCTOS
+
+-- 7. Borre el registro del producto que no se ha incluido en la orden. 
+DELETE FROM PRODUCTOS
+WHERE PRODUCTOID = '16'
+SELECT * FROM PRODUCTOS
+
+/*8. Mostrar todos los PRODUCTOS con su nombre y el total de unidades (suma de CANTIDAD) 
+incluidas en las ORDENES. Debe mostrar todos los productos, aún si no han sido incluidos 
+en ninguna orden. Para probar el SELECT, previamente inserte estos registros: */
+INSERT INTO PRODUCTOS VALUES (16, 200, 30, 'QUESO FRESCO', 3.5, 10), 
+                             (17, 200, 40, 'QUESO MADURO', 4.5, 10);
+SELECT * FROM PRODUCTOS
+SELECT * FROM DETALLE_ORDENES
+
+SELECT P.PRODUCTOID, DESCRIPCION, ISNULL(SUM(CANTIDAD), 0) AS 'Total unidades ORDENES' 
+FROM PRODUCTOS P
+LEFT JOIN DETALLE_ORDENES DO ON P.PRODUCTOID = DO.PRODUCTOID
+GROUP BY P.PRODUCTOID, DESCRIPCION
 
