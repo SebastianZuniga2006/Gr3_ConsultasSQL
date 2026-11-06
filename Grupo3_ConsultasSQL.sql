@@ -80,3 +80,39 @@ ON O.CLIENTEID = C.CLIENTEID
 GROUP BY C.NOMBRECIA, O.CLIENTEID
 HAVING count(O.CLIENTEID) > 3
 
+/*10. Muestre los PRODUCTOS, con su nombre y precio unitario y el nombre del proveedor.*/
+
+SELECT * FROM PRODUCTOS
+SELECT * FROM PROVEEDORES
+
+SELECT P.DESCRIPCION AS 'NOMBRE PRODUCTO', P.PRECIOUNIT, PV.NOMBREPROV 
+FROM PRODUCTOS P JOIN PROVEEDORES PV 
+ON P.PROVEEDORID = PV.PROVEEDORID
+GROUP BY P.DESCRIPCION, P.PRECIOUNIT, PV.NOMBREPROV
+
+/*11. Muestre el nombre del cliente, el número de orden y la suma de unidades de productos incluidos en cada orden.*/
+
+SELECT * FROM CLIENTES
+SELECT * FROM DETALLE_ORDENES
+SELECT * FROM ORDENES
+
+SELECT C.NOMBRECIA, DO.ORDENID AS 'NÚMERO DE ORDEN', sum(DO.CANTIDAD) AS 'SUMA DE UNIDADES EN CADA ORDEN'
+FROM CLIENTES C JOIN ORDENES O 
+ON C.CLIENTEID = O.CLIENTEID 
+JOIN DETALLE_ORDENES DO
+ON DO.ORDENID = O.ORDENID
+GROUP BY C.NOMBRECIA, DO.ORDENID 
+
+/*12. Presente el nombre de la categoría, el número de productos en esa categoría, 
+el precio promedio de los productos. Solo muestre los grupos en los que el precio promedio de productos sea > 10.*/
+SELECT * FROM CATEGORIAS
+SELECT * FROM PRODUCTOS
+
+
+SELECT C.NOMBRECAT, count(P.CATEGORIAID) AS 'Productos x categoría', round(avg(P.PRECIOUNIT), 2) AS 'Precio promedio'
+FROM CATEGORIAS C JOIN PRODUCTOS P 
+ON C.CATEGORIAID = P.CATEGORIAID
+GROUP BY C.NOMBRECAT
+HAVING avg(P.PRECIOUNIT) > 10 
+
+
