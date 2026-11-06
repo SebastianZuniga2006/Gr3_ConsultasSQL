@@ -68,3 +68,15 @@ FROM PRODUCTOS P
 LEFT JOIN DETALLE_ORDENES DO ON P.PRODUCTOID = DO.PRODUCTOID
 GROUP BY P.PRODUCTOID, DESCRIPCION
 
+/*9. Muestre el número de órdenes que tiene cada cliente, indicando el nombre de la compañía cliente 
+y el número de órdenes, solo de las compañías que tengan más de 3 órdenes. */
+
+SELECT * FROM ORDENES
+SELECT * FROM CLIENTES
+
+SELECT C.NOMBRECIA, count(O.CLIENTEID) AS 'Numero de ordenes'
+FROM ORDENES O JOIN CLIENTES C 
+ON O.CLIENTEID = C.CLIENTEID
+GROUP BY C.NOMBRECIA, O.CLIENTEID
+HAVING count(O.CLIENTEID) > 3
+
